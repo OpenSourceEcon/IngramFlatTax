@@ -1,0 +1,23 @@
+name: fga-taxcalc-dev
+channels:
+  - conda-forge
+dependencies:
+- "python>=3.10, <3.13"
+- "numpy>=1.26"
+- "pandas>=2.2"
+- "bokeh>=3.0"
+- marshmallow<4.0.0
+- ipython
+- jupyter
+- ipykernel
+- matplotlib
+- behresp
+- openpyxl
+- pip
+- pip:
+    - git+https://github.com/rickecon/Tax-Calculator.git@ingram_flat
+    - taxbrain
+    - pypandoc
+    - tabulate
+    - xlrd
+    - ogusa
