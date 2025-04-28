@@ -1,0 +1,52 @@
+// Title: Jonathan Ingram flat tax reform
+// Reform_File_Author: Richard Evans
+// Reform_Baseline: either policy_current_law.json (Apr. 28, 2025) or TCJA_ext.json
+// Reform_Description:
+// - 1. Set all marginal individual income tax rates to 20%
+// - 2. Set all pass-through individual income tax rates to 20%
+// - 3. Set all the capital gains tax rates to 20%
+// - 4. Set the AMT individual income tax rates to 0% and the AMT capital gains
+//      tax rates to 0%
+// - 5. Increase the Standard deduction to $50k for joint filers and $25K for
+//      all other filers. Set the aged standard deduction to $0 for all filers.
+// - 6. Create a Per child exemption of $20k for all filers.
+// - 7. Get rid of the EITC, CTC, and ACTC credits.
+// NOTE: This file requires the "ingram_flat" branch of the RickEcon fork of Tax-Calculator
+// (https://github.com/rickecon/Tax-Calculator/tree/ingram_flat) because of the added
+// parameter II_em_Ingram and how it enters the AGI() function in calcfunctions.py
+{
+    "II_rt1": {"2026": 0.2},
+    "II_rt2": {"2026": 0.2},
+    "II_rt3": {"2026": 0.2},
+    "II_rt4": {"2026": 0.2},
+    "II_rt5": {"2026": 0.2},
+    "II_rt6": {"2026": 0.2},
+    "II_rt7": {"2026": 0.2},
+    "II_rt8": {"2026": 0.2},
+    "PT_rt1": {"2026": 0.2},
+    "PT_rt2": {"2026": 0.2},
+    "PT_rt3": {"2026": 0.2},
+    "PT_rt4": {"2026": 0.2},
+    "PT_rt5": {"2026": 0.2},
+    "PT_rt6": {"2026": 0.2},
+    "PT_rt7": {"2026": 0.2},
+    "PT_rt8": {"2026": 0.2},
+    "CG_rt1": {"2026": 0.2},
+    "CG_rt2": {"2026": 0.2},
+    "CG_rt3": {"2026": 0.2},
+    "CG_rt4": {"2026": 0.2},
+    "AMT_rt1": {"2026": 0},
+    "AMT_rt2": {"2026": 0},
+    "AMT_CG_rt1": {"2026": 0},
+    "AMT_CG_rt2": {"2026": 0},
+    "AMT_CG_rt3": {"2026": 0},
+    "AMT_CG_rt4": {"2026": 0},
+    "STD": {"2026": [25000,50000,50000,25000,25000]},
+    "STD_Aged": {"2026": [0,0,0,0,0]},
+    "II_em": {"2026": 20000},
+    "II_em_Ingram": {"2026": true},
+    "ID_c": {"2026": [0,0,0,0,0]},
+    "EITC_c": {"2026": [0.0, 0.0, 0.0, 0.0]},
+    "CTC_c": {"2026": 0.0},
+    "ACTC_c": {"2026": 0.0}
+}
