@@ -27,7 +27,7 @@ plt.style.use(style_file_url)
 
 def main():
     # Define parameters to use for multiprocessing
-    num_workers = min(multiprocessing.cpu_count(), 7)
+    num_workers = min(multiprocessing.cpu_count(), 10)
     client = Client(n_workers=num_workers, threads_per_worker=1)
     print("Number of workers = ", num_workers)
 
