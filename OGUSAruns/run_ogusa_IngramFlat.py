@@ -7,7 +7,7 @@ import time
 import importlib.resources
 import copy
 from pathlib import Path
-from taxcalc import Calculator
+from taxcalc import Policy, Calculator
 from taxcalc.growfactors import GrowFactors
 import matplotlib.pyplot as plt
 from ogusa.calibrate import Calibration
@@ -36,6 +36,7 @@ def main():
     save_dir = CUR_DIR
     base_dir = os.path.join(save_dir, "OUTPUT_TCJAperm")
     reform_dir = os.path.join(save_dir, "OUTPUT_IngramFlat")
+    # Set the directory where the TMD data is stored on your local machine
     tmd_dir = (
         "/Users/richardevans/Docs/Economics/OSE/microsim/" +
         "tax-microdata-benchmarking/tmd/storage/output"
@@ -59,12 +60,18 @@ def main():
     ) as file:
         defaults = json.load(file)
     p.update_specifications(defaults)
-
     p.tax_func_type = "HSV"
     p.age_specifig = True
+    # Get a TCJA permanence reform policy JSON file from IngramFlatTax repo
+    base_url = (
+        "github://OpenSourceEcon:IngramFlatTax@main/json/TCJA_ext.json"
+    )
+    pol1_dict = Calculator.read_json_param_objects(base_url, None)
+    iit_baseline = pol1_dict["policy"]
     c = Calibration(
         p,
         estimate_tax_functions=True,
+        iit_baseline=iit_baseline,
         client=client,
         data=Path(os.path.join(tmd_dir, "tmd_jason.csv.gz")),
         weights=Path(os.path.join(tmd_dir, "tmd_weights_jason.csv.gz")),
@@ -93,12 +100,13 @@ def main():
     Run reform policy
     ------------------------------------------------------------------------
     """
-    # Grab a reform JSON file already in Tax-Calculator
+    # Get an Ingram flat tax reform policy JSON file from IngramFlatTax repo
     reform_url = (
-        "github://OFRA-ORG:Tax-Calculator-thru74@tcja/taxcalc/reforms/ext.json"
+        "github://OpenSourceEcon:IngramFlatTax@main/json/" +
+        "Ingram_flat_tcjaperm.json"
     )
-    ref = Calculator.read_json_param_objects(reform_url, None)
-    iit_reform = ref["policy"]
+    pol2_dict = Calculator.read_json_param_objects(reform_url, None)
+    iit_reform2 = pol2_dict["policy"]
 
     # create new Specifications object for reform simulation
     p2 = copy.deepcopy(p)
@@ -108,7 +116,7 @@ def main():
     # Tax-Calculator, specifying reform for Tax-Calculator in iit_reform
     c2 = Calibration(
         p2,
-        iit_reform=iit_reform,
+        iit_reform=iit_reform2,
         estimate_tax_functions=True,
         client=client,
         data=Path(os.path.join(tmd_dir, "tmd_jason.csv.gz")),
@@ -162,7 +170,7 @@ def main():
     op.plot_all(
         base_dir,
         reform_dir,
-        os.path.join(save_dir, "OG-USA_Ingram_plots_tables"),
+        os.path.join(save_dir, "Ingram_plots_tables"),
     )
     # Create CSV file with output
     ot.tp_output_dump_table(
@@ -173,7 +181,7 @@ def main():
         table_format="csv",
         path=os.path.join(
             save_dir,
-            "OG-USA_Ingram_plots_tables",
+            "Ingram_plots_tables",
             "macro_time_series_output.csv",
         ),
     )
@@ -182,7 +190,7 @@ def main():
     # save percentage change output to csv file
     ans.to_csv(
         os.path.join(
-            save_dir, "OG-USA_Ingram_plots_tables", "Ingram_output.csv"
+            save_dir, "Ingram_plots_tables", "Ingram_output.csv"
         )
     )
 
