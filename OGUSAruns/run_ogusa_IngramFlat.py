@@ -61,7 +61,7 @@ def main():
         defaults = json.load(file)
     p.update_specifications(defaults)
     p.tax_func_type = "HSV"
-    p.age_specifig = True
+    p.age_specific = False
     # Get a TCJA permanence reform policy JSON file from IngramFlatTax repo
     base_url = (
         "github://OpenSourceEcon:IngramFlatTax@main/json/TCJA_ext.json"
