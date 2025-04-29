@@ -63,7 +63,6 @@ def main():
     p.tax_func_type = "HSV"
     p.age_specifig = True
     # Get a TCJA permanence reform policy JSON file from IngramFlatTax repo
-    pol1 = Policy()
     base_url = (
         "github://OpenSourceEcon:IngramFlatTax@main/json/TCJA_ext.json"
     )
@@ -101,13 +100,12 @@ def main():
     Run reform policy
     ------------------------------------------------------------------------
     """
-    pol2 = Policy()
-    pol2.implement_reform(pol1_dict)
     # Get an Ingram flat tax reform policy JSON file from IngramFlatTax repo
     reform_url = (
-        "github://OpenSourceEcon:IngramFlatTax@main/json/Ingram_flat.json"
+        "github://OpenSourceEcon:IngramFlatTax@main/json/" +
+        "Ingram_flat_tcjaperm.json"
     )
-    pol2_dict = pol2.read_json_reform(reform_url)
+    pol2_dict = Calculator.read_json_param_objects(reform_url, None)
     iit_reform2 = pol2_dict["policy"]
 
     # create new Specifications object for reform simulation
